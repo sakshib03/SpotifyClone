@@ -119,7 +119,7 @@ const updateIconsForPauseMode = (id) =>{
 
 const onAudioMetadateLoaded = (id) =>{
     const totalSongDuration = document.querySelector("#total-song-duration");
-    totalSongDuration.textContent = `0: ${audio.duration.toFixed(0)}`;
+    totalSongDuration.textContent = `0:${audio.duration.toFixed(0)}`;
 }
 
 const togglePlay = () => {
