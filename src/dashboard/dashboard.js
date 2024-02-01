@@ -124,7 +124,7 @@ const onAudioMetadateLoaded = (id) =>{
 
 const togglePlay = () => {
     if(audio.src){
-        if(audio.pause()){
+        if(audio.paused){
             audio.play();
         }else{
             audio.pause();
@@ -159,15 +159,15 @@ const playPrevTrack = () =>{
 
 }
 
-const playTrack = (event, {image, artistNames, name, duration, preview_Url, id }) =>{
+const playTrack = (event, {image, artistNames, name, duration, preview_url, id }) =>{
     if(event?.stopPropagation){
         event.stopPropagation();
     }
-    if(audio.src === preview_Url){
+    if(audio.src === preview_url){
         togglePlay();
     }else{
         
-     console.log(image, artistNames, name, duration, preview_Url, id);
+     console.log(image, artistNames, name, duration, preview_url, id);
 
     const nowPlayingSongImage = document.querySelector("#now-playing-image");
     const songTitle = document.querySelector("#now-playing-song");
@@ -179,7 +179,7 @@ const playTrack = (event, {image, artistNames, name, duration, preview_Url, id }
     nowPlayingSongImage.src = image.url;
     songTitle.textContent = name;
     artists.textContent = artistNames;
-    audio.src = preview_Url;
+    audio.src = preview_url;
     audio.play();
     songInfo.classList.remove("invisible");
 
@@ -192,8 +192,8 @@ const loadPlaylistTracks = ({tracks}) => {
     const trackSection = document.querySelector("#tracks");
     let trackNo=1;
     const loadedTracks = [];
-    for(let trackItem of tracks.items.filter(item=> item.track.preview_Url)){
-        let {id, artists, name, album, duration_ms: duration, preview_url:preview_Url} = trackItem.track;
+    for(let trackItem of tracks.items.filter(item=> item.track.preview_url)){
+        let {id, artists, name, album, duration_ms: duration, preview_url:preview_url} = trackItem.track;
         let track = document.createElement("section");
         track.id = id;
         track.className = "track p-1 grid grid-cols-[50px_1fr_1fr_50px] items-center justify-items-start gap-4 rounded-md hover:bg-light-black";
@@ -217,10 +217,10 @@ const loadPlaylistTracks = ({tracks}) => {
         playButton.id = `play-track-${id}`;
         playButton.className=`play w-full absolute left-0 text-lg invisible material-symbols-outlined`;
         playButton.textContent = "play_arrow"; 
-        playButton.addEventListener("click", (event)=> playTrack(event, {image, artistNames, name, duration, preview_Url, id }))
+        playButton.addEventListener("click", (event)=> playTrack(event, {image, artistNames, name, duration, preview_url, id }))
         track.querySelector("p").appendChild(playButton);
         trackSection.appendChild(track);
-        loadedTracks.push({id, artistNames, name, album, duration, preview_Url, image});
+        loadedTracks.push({id, artistNames, name, album, duration, preview_url, image});
     }
 
     setItemInLocalStorage(LOADED_TRACKS, loadedTracks);
